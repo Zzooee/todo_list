@@ -2,21 +2,28 @@
  * Created by Crystal.tongjoy on 2016/6/23.
  */
 // webpack.config.js
+var path = require("path");
 var webpack = require('webpack');
 var commonsPlugin = new webpack.optimize.CommonsChunkPlugin('common.js');
 
 module.exports = {
     //插件项
-    plugins: [commonsPlugin],
+    plugins: [
+        new webpack.optimize.OccurenceOrderPlugin(),
+        new webpack.HotModuleReplacementPlugin(),
+        new webpack.NoErrorsPlugin()
+    ],
     //页面入口文件配置
     //支持数组形式，将加载数组中的所有模块，但以最后一个模块作为输出
     entry: {
-        index : 'index.js'
+        "webpck-hot-middleware/client",
+        index : './index.js'
     },
     //入口文件输出配置
     output: {
-        path: 'page',
-        filename: '[name].js'
+        path: path.join(__dirname, "dist"),
+        filename: 'bundle.js',
+        publicPath: "/"
     },
     module: {
         //加载器配置 它告知 webpack 每一种文件都需要使用什么加载器来处理：
